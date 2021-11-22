@@ -6,7 +6,7 @@ services:
     volumes: 
        - .:/usr/src/backend/app
     build: .
-    command: npm run dev
+    command: npm i
     ports: 
       - 80:3000
     links:
