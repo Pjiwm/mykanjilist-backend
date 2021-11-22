@@ -49,7 +49,5 @@ function validateDescription(val) {
 }
 
 
-
-
 const kanjilist = mongoose.model('kanjilist', KanjiListSchema)
 module.exports = kanjilist

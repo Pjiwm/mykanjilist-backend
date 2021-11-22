@@ -1,6 +1,6 @@
 const KanjiList = require('../models/kanjilist')
 
-class DriversController {
+class GuideController {
 
     /**
      * Creates a new kanjilist
@@ -51,4 +51,4 @@ class DriversController {
     }
 }
 
-module.exports = new DriversController()
+module.exports = new GuideController()

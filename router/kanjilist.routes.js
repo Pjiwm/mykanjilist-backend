@@ -1,11 +1,9 @@
-const kanjiListController = require('../controllers/kanjilist.controller')
+const KanjiListController = require('../controllers/kanjilist.controller')
 
 module.exports = (app) => {
-    // app.get('/api', kanjiListController.greeting)
-
-    app.post('/api/kanjilist', kanjiListController.create)
-    app.get('/api/kanjilist/:id', kanjiListController.get)
-    app.get('/api/kanjilist', kanjiListController.getAll)
-    app.put('/api/kanjilist/:id', kanjiListController.edit)
-    app.delete('/api/kanjilist/:id', kanjiListController.delete)
+    app.post('/api/kanjilist', KanjiListController.create)
+    app.get('/api/kanjilist/:id', KanjiListController.get)
+    app.get('/api/kanjilist', KanjiListController.getAll)
+    app.put('/api/kanjilist/:id', KanjiListController.edit)
+    app.delete('/api/kanjilist/:id', KanjiListController.delete)
 }

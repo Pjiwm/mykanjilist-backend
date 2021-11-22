@@ -17,11 +17,18 @@ const GuideSchema = new Schema({
         required: [true, 'guide requires a list of skills'],
         validate: [validateRequiredSkills, 'list requires at least 1 skill'],
     },
+    kanjilist: {
+        type: Schema.Types.ObjectId,
+        ref: 'kanjilist',
+        autopopulate: true
+    }
 
 }, {
     toObject: { virtuals: true },
     toJSON: { virtuals: true }
 })
+
+GuideSchema.plugin(require('mongoose-autopopulate'));
 
 GuideSchema.virtual('creationDate').get(function () {
     return new Date()
