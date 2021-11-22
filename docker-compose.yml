@@ -13,6 +13,7 @@ services:
       - 'mongo'
   mongo:
     container_name: kanji_mongo
+    restart: always
     image: mongo
     ports:
       - 27017:27017

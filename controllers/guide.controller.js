@@ -1,0 +1,54 @@
+const Guide = require('../models/guide')
+
+class GuideController {
+
+    /**
+     * Creates a new guide
+     * @param {*} body - the body of the request
+     * @param {*} res - the response we give back after we tried to add the request object
+     */
+    async create({ body }, res, next) {
+        const newGuide = await Guide.create(body).catch(next)
+        res.send(newGuide)
+    }
+
+    /**
+     * Reads from database and retrieves a guide
+     * @param {*} params.id - the id of the guide we want to get as a response
+     * @param {*} res - the guide with the given id
+     */
+    async get({params}, res, next) {
+        const foundGuide = await Guide.findById(params.id).catch(next)
+        res.send(foundGuide)
+    }
+
+    /**
+     * Reads all guides from database
+     * @param {*} res - all guides in database
+     */
+    async getAll(req, res, next) {
+        const foundguides = await Guide.find().catch(next)
+        res.send(foundguides)
+    }
+
+    /**
+     * Updates a guide
+     * @param {*} params.id - the id of the guide we want to update
+     * @param {*} res - the response we give back after the guide is updated
+     */
+    async edit({ body, params }, res, next) {
+        await Guide.findByIdAndUpdate({ _id: params.id }, body).catch(next)
+        res.send(await Guide.findById(params.id))
+    }
+    /**
+     * 
+     * @param {*} params.id - the id of the guide we want to delete 
+     * @param {*} res 
+     */
+    async delete({ body, params }, res, next) {
+        const removedguide = await Guide.findByIdAndDelete(params.id).catch(next)
+            res.send({message: "deleted", object: removedguide})
+    }
+}
+
+module.exports = new GuideController()

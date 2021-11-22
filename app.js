@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const kanjiListRoutes = require('./router/kanjilist.routes')
+const GuideRoutes = require('./router/guide.routes')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
@@ -12,6 +13,8 @@ if (process.env.NODE_ENV !== 'test') {
 
 app.use(bodyParser.json())
 kanjiListRoutes(app)
+GuideRoutes(app)
+
 app.use(async (err, req, res, next) => {
     res.status(422).send({ error: err.message })
 })
