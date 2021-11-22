@@ -28,7 +28,7 @@ const GuideSchema = new Schema({
     toJSON: { virtuals: true }
 })
 
-GuideSchema.plugin(require('mongoose-autopopulate'));
+GuideSchema.plugin(require('mongoose-autopopulate'))
 
 GuideSchema.virtual('creationDate').get(function () {
     return new Date()
