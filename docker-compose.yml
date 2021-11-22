@@ -3,14 +3,18 @@ version: "3.8"
 services:
   node:
     container_name: kanji_node
-    volumes: 
-       - .:/usr/src/backend/app
+    volumes:
+      - .:/usr/src/backend/app
     build: .
     command: npm run dev
-    ports: 
+    ports:
       - 80:3000
     links:
       - 'mongo'
+    env_file:
+      - .env
+    environment:
+      DATABASE_CONNECTION: ${DATABASE_CONNECTION}
   mongo:
     container_name: kanji_mongo
     restart: always
