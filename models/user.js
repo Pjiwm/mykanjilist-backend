@@ -5,17 +5,18 @@ const UserSchema = new Schema({
     userName: {
         type: String,
         required: [true, 'user needs a username'],
-        validate: [validateUserName, 'A username must be at least 5 characters long']
+        validate: [validateUserName, 'A username must be at least 5 characters long'],
+        unique: [true, "username already in-use"],
     },
     email: {
         type: String,
         required: [true, 'user needs an email address'],
-        validate: [validateEmail, 'Please enter a valid email address']
+        validate: [validateEmail, 'Please enter a valid email address'],
+        unique: [true, "email already in-use"],
     },
-    password: { 
+    password: {
         type: String,
-        required: [true, 'user needs a password'],
-        validate: [validatePassword, 'Password needs to be at least 8 characters long and contain a number']
+        required: [true, 'user needs a password']
     }
 }, {
     toObject: { virtuals: true },
@@ -38,11 +39,6 @@ function validateEmail(val) {
     return re.test(String(val).toLowerCase())
 }
 
-// password check with at least 8 characters and a number
-function validatePassword(val) {
-    var re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-    return re.test(String(val))
-}
 
 module.exports = mongoose.model('User', UserSchema)
 

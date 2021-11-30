@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const sign = require('../helpers/jwt.sign')
+const passwordCheck = require('../helpers/password.check')
 
 class UserController {
 
@@ -11,14 +12,19 @@ class UserController {
      */
     async create({ body }, res, next) {
         const hashedPassword = await bcrypt.hash(body.password, 10)
+        if (!passwordCheck(body.password)) {
+            return res.status(400).json({
+                message: "Password needs to be at least 8 chacters long and contain a number"
+            })
+        }
 
-        const newUser = await User.create({ 
-            userName: body.username,
-            email: body.email,
-            password: hashedPassword
-        }).catch(next)
+        body.password = hashedPassword
+        const newUser = await User.create(body).catch( (err) => {
+            return next(err)
+        })
 
-        const token = sign(newUser)
+        console.log(newUser)
+        const token = await sign(newUser)
         res.send({
             _id: newUser._id,
             userName: newUser.userName,
@@ -32,7 +38,7 @@ class UserController {
      * @param {*} params.id - the id of the user we want to get as a response
      * @param {*} res - the user with the given id
      */
-    async get({params}, res, next) {
+    async get({ params }, res, next) {
         const foundUser = await User.findById(params.id).catch(next)
         res.send(foundUser)
     }
@@ -53,7 +59,7 @@ class UserController {
      */
     async delete({ body, params }, res, next) {
         const removedUser = await User.findByIdAndDelete(params.id).catch(next)
-            res.send({message: "deleted", object: removedUser})
+        res.send({ message: "deleted", object: removedUser })
     }
 }
 

@@ -1,4 +1,5 @@
 const secret = process.env.JWT_SECRET
-module.exports = function(user) {
-    return jwt.sign(newUser, secret)
+const jwt = require('jsonwebtoken')
+module.exports = async function(user) {
+    return await jwt.sign(user.toJSON(), secret)
 }

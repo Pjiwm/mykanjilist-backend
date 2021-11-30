@@ -10,7 +10,7 @@ const errors = require('./errors')
 
 mongoose.Promise = global.Promise
 if (process.env.NODE_ENV === 'dev') {
-    mongoose.connect('mongodb://kanji_mongo/uber')
+    mongoose.connect('mongodb://kanji_mongo/mykanjilist')
     console.log('Connected to docker database')  
 
 } else if (process.env.NODE_ENV === 'prod') {

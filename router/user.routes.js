@@ -8,7 +8,7 @@ module.exports = (app) => {
     // this is the register route
     app.post('/api/register', UserController.create)
     // this is the login route
-    app.post('/api//login', AuthController.login)
+    app.post('/api/login', AuthController.login)
 
     app.get('/api/user/:id', UserController.get)
     app.put('/api/user/:id', jwtMiddleware, UserController.edit)
