@@ -21,10 +21,11 @@ class UserController {
 
         body.password = hashedPassword
 
-        if (duplicateCheck({ email: body.email })) {
+        if (await duplicateCheck({ email: body.email })) { 
             return res.status(400).json({ message: 'Email already in use' })
         }
-        if (duplicateCheck(body.userName)) {
+
+        if (await duplicateCheck({userName: body.userName})) {
             return res.status(400).json({ message: 'Username already in use' })
         }
 
