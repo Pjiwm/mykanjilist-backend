@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const kanjiListRoutes = require('./router/kanjilist.routes')
 const GuideRoutes = require('./router/guide.routes')
+const PracticeResourceRoutes = require('./router/practiceresource.routes')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
@@ -19,6 +20,7 @@ if (process.env.NODE_ENV === 'dev') {
 app.use(bodyParser.json())
 kanjiListRoutes(app)
 GuideRoutes(app)
+PracticeResourceRoutes(app)
 
 // errors
 // catch all not found response

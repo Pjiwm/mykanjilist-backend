@@ -18,7 +18,7 @@ const PracticeResourceSchema = new Schema({
         validate: [validateRequiredSkills, 'list requires at least 1 skill'],
     },
     estimatedReadingTime: { 
-        type: number,
+        type: Number,
         required: [true, 'practice resource requires an estimated reading time'],
         validate: [validateReadingTime, 'The estimated reading time must be at least 1 minute']
     }
@@ -45,7 +45,7 @@ function validateContent(val) {
 }
 
 function validateReadingTime(val) {
-    return val.length >= 1
+    return val >= 1
 }
 
 
