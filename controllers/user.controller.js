@@ -13,24 +13,23 @@ class UserController {
      */
     async create({ body }, res, next) {
         const hashedPassword = await bcrypt.hash(body.password, 10)
-        if (!passwordCheck(body.password)) {
+        if (!passwordCheck({ userName: body.password })) {
             return res.status(400).json({
                 message: "Password needs to be at least 8 chacters long and contain a number"
             })
         }
 
         body.password = hashedPassword
-        const duplicateEmail = await duplicateCheck({ email: body.email })
-        const duplicateUserName = await duplicateCheck({ userName: body.userName })
 
-        if (duplicateEmail) {
-            return res.status(400).json({ message: "Email already exists" })
+        if (duplicateCheck({ email: body.email })) {
+            return res.status(400).json({ message: 'Email already in use' })
         }
-        if (duplicateUserName) {
-            return res.status(400).json({ message: "Username already exists" })
+        if (duplicateCheck(body.userName)) {
+            return res.status(400).json({ message: 'Username already in use' })
         }
 
         const newUser = await User.create(body).catch(next)
+
 
         const token = await sign(newUser)
         res.send({

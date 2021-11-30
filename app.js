@@ -35,7 +35,6 @@ app.use('*', function(_, res) {
 // error responses
 app.use('*', function(err, req, res, next) {
     console.error(`${err.name}: ${err.message}`)
-    // console.error(err)
     next(err)
 })
 
