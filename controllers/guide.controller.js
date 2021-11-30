@@ -1,4 +1,5 @@
 const Guide = require('../models/guide')
+const jwtDecode = require('../helpers/jwt.decode')
 
 class GuideController {
 
@@ -7,7 +8,13 @@ class GuideController {
      * @param {*} body - the body of the request
      * @param {*} res - the response we give back after we tried to add the request object
      */
-    async create({ body }, res, next) {
+    async create({headers, body}, res, next) {
+        const token = await jwtDecode(headers.authorization) 
+        console.log(token)   
+        if(token.error !== undefined) {
+            return res.status(token.code).send({message: token.message})
+        }
+        body.user = token._id
         const newGuide = await Guide.create(body).catch(next)
         res.send(newGuide)
     }

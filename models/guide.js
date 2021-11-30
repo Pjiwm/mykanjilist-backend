@@ -21,6 +21,12 @@ const GuideSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'kanjilist',
         autopopulate: true
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        required: [true, 'guide needs a user'],
+        autopopulate: false
     }
 
 }, {
