@@ -15,6 +15,7 @@ services:
       - .env
     environment:
       DATABASE_CONNECTION: ${DATABASE_CONNECTION}
+      JWT_SECRET: ${JWT_SECRET}
   mongo:
     container_name: kanji_mongo
     #restart: always

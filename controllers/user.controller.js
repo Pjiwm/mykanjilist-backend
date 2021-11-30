@@ -1,4 +1,6 @@
 const User = require('../models/user')
+const bcrypt = require('bcrypt')
+const sign = require('../helpers/jwt.sign')
 
 class UserController {
 
@@ -8,8 +10,21 @@ class UserController {
      * @param {*} res - the response we give back after we tried to add the request object
      */
     async create({ body }, res, next) {
-        const newUser = await User.create(body).catch(next)
-        res.send(newUser)
+        const hashedPassword = await bcrypt.hash(body.password, 10)
+
+        const newUser = await User.create({ 
+            userName: body.username,
+            email: body.email,
+            password: hashedPassword
+        }).catch(next)
+
+        const token = sign(newUser)
+        res.send({
+            _id: newUser._id,
+            userName: newUser.userName,
+            email: newUser.email,
+            token: token
+        })
     }
 
     /**
@@ -18,8 +33,8 @@ class UserController {
      * @param {*} res - the user with the given id
      */
     async get({params}, res, next) {
-        const foundUseer = await User.findById(params.id).catch(next)
-        res.send(foundUseer)
+        const foundUser = await User.findById(params.id).catch(next)
+        res.send(foundUser)
     }
 
     /**

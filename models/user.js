@@ -6,13 +6,23 @@ const UserSchema = new Schema({
         type: String,
         required: [true, 'user needs a username'],
         validate: [validateUserName, 'A username must be at least 5 characters long']
+    },
+    email: {
+        type: String,
+        required: [true, 'user needs an email address'],
+        validate: [validateEmail, 'Please enter a valid email address']
+    },
+    password: { 
+        type: String,
+        required: [true, 'user needs a password'],
+        validate: [validatePassword, 'Password needs to be at least 8 characters long and contain a number']
     }
 }, {
     toObject: { virtuals: true },
     toJSON: { virtuals: true }
 })
 
-UserSchema.plugin(require('mongoose-autopopulate'));
+UserSchema.plugin(require('mongoose-autopopulate'))
 
 UserSchema.virtual('registrationDate').get(function () {
     return new Date()
@@ -22,15 +32,31 @@ function validateUserName(val) {
     return val.length >= 5
 }
 
-UserSchema.pre('remove', async function() {
+
+function validateEmail(val) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return re.test(String(val).toLowerCase())
+}
+
+// password check with at least 8 characters and a number
+function validatePassword(val) {
+    var re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+    return re.test(String(val))
+}
+
+module.exports = mongoose.model('User', UserSchema)
+
+module.exports = mongoose.model('User', UserSchema)
+
+UserSchema.pre('remove', async function () {
     // include the product model here to avoid cyclic inclusion
     const Product = mongoose.model('Product')
 
     // don't iterate here! we want to use mongo operators!
     // this makes sure the code executes inside mongo
-    await Product.updateMany({}, {$pull: {'kanjilist': {'user': this._id}}})
-    await Product.updateMany({}, {$pull: {'guidee': {'user': this._id}}})
-    await Product.updateMany({}, {$pull: {'practiceresource': {'user': this._id}}})
+    await Product.updateMany({}, { $pull: { 'kanjilist': { 'user': this._id } } })
+    await Product.updateMany({}, { $pull: { 'guidee': { 'user': this._id } } })
+    await Product.updateMany({}, { $pull: { 'practiceresource': { 'user': this._id } } })
 
 })
 
