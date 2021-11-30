@@ -2,6 +2,7 @@ const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const sign = require('../helpers/jwt.sign')
 const passwordCheck = require('../helpers/password.check')
+const duplicateCheck = require('../helpers/duplicate.user.check')
 
 class UserController {
 
@@ -19,13 +20,18 @@ class UserController {
         }
 
         body.password = hashedPassword
+        const duplicateEmail = await duplicateCheck({ email: body.email })
+        const duplicateUserName = await duplicateCheck({ userName: body.userName })
+
+        if (duplicateEmail) {
+            return res.status(400).json({ message: "Email already exists" })
+        }
+        if (duplicateUserName) {
+            return res.status(400).json({ message: "Username already exists" })
+        }
+
         const newUser = await User.create(body).catch(next)
 
-        // await User.init().catch(() => {
-        //     return res.status(400).json({ message: `Duplicate ${_duplicateCheck(body)}` })
-        // })
-
-        console.log(`>>>>>>>${newUser}`)
         const token = await sign(newUser)
         res.send({
             _id: newUser._id,
@@ -64,20 +70,6 @@ class UserController {
         res.send({ message: "deleted", object: removedUser })
     }
 
-    async _duplicateCheck(body) {
-        let returnMessage = ""
-        const user = await User.findOne({ userName: body.userName })
-        if (user) {
-            returnMessage.join(" username")
-        }
-        user = await User.findOne({ email: body.email })
-
-        if (user) {
-            returnMessage.join(" email")
-        }
-
-        return returnMessage
-    }
 }
 
 module.exports = new UserController()
