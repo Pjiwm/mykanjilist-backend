@@ -1,6 +1,6 @@
 
 const bcrypt = require('bcrypt')
-const User  = require('../models/guide')
+const User = require('../models/user')
 const sign = require('../helpers/jwt.sign')
 
 class AuthController {
@@ -13,7 +13,7 @@ class AuthController {
     async login({ body }, res, next) {
         const foundUser = await User.findOne({ email: body.email })
 
-        if (!foundUser.length) {
+        if (foundUser === null) {
             return res.status(401).json({
                 message: 'Email does not exist'
             })
@@ -21,7 +21,7 @@ class AuthController {
 
         const isPasswordValid = await bcrypt.compare(body.password, foundUser.password)
         if (isPasswordValid) {
-            const token = sign(foundUser)
+            const token = await sign(foundUser)
             return res.status(200).json({
                 message: 'Login Success',
                 token
