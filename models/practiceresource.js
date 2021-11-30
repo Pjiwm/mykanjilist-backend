@@ -17,16 +17,25 @@ const PracticeResourceSchema = new Schema({
         required: [true, 'guide requires a list of skills'],
         validate: [validateRequiredSkills, 'list requires at least 1 skill'],
     },
-    estimatedReadingTime: { 
+    estimatedReadingTime: {
         type: Number,
         required: [true, 'practice resource requires an estimated reading time'],
         validate: [validateReadingTime, 'The estimated reading time must be at least 1 minute']
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        required: [true, 'guide needs a user'],
+        autopopulate: true
     }
 
 }, {
     toObject: { virtuals: true },
     toJSON: { virtuals: true }
 })
+
+PracticeResourceSchema.plugin(require('mongoose-autopopulate'))
+
 
 PracticeResourceSchema.virtual('creationDate').get(function () {
     return new Date()

@@ -21,12 +21,20 @@ const KanjiListSchema = new Schema({
         type: [String],
         required: [true, 'list requires tags'],
         validate: [validateTags, 'list requires at least 1 tag']
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        required: [true, 'guide needs a user'],
+        autopopulate: true
     }
 
 }, {
     toObject: { virtuals: true },
     toJSON: { virtuals: true }
 })
+
+KanjiListSchema.plugin(require('mongoose-autopopulate'))
 
 KanjiListSchema.virtual('creationDate').get(function () {
     return new Date()
