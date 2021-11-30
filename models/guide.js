@@ -12,10 +12,10 @@ const GuideSchema = new Schema({
         required: [true, 'guide requires content'],
         validate: [validateContent, 'The content of the guide must at least contain 250 characters']
     },
-    requiredSkills: {
+    tags: {
         type: [String],
-        required: [true, 'guide requires a list of skills'],
-        validate: [validateRequiredSkills, 'list requires at least 1 skill'],
+        required: [true, 'guide requires tags'],
+        validate: [validateTags, 'list requires at least 1 tag'],
     },
     kanjilist: {
         type: Schema.Types.ObjectId,
@@ -34,10 +34,6 @@ GuideSchema.virtual('creationDate').get(function () {
     return new Date()
 })
 
-function validateRequiredSkills(val) {
-    return val.length >= 1
-}
-
 function validateTags(val) {
     return val.length >= 1
 }
@@ -51,5 +47,5 @@ function validateContent(val) {
 }
 
 
-const kanjilist = mongoose.model('guide', GuideSchema)
-module.exports = kanjilist
+const guide = mongoose.model('guide', GuideSchema)
+module.exports = guide

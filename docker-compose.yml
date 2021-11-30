@@ -17,7 +17,7 @@ services:
       DATABASE_CONNECTION: ${DATABASE_CONNECTION}
   mongo:
     container_name: kanji_mongo
-    restart: always
+    #restart: always
     image: mongo
     ports:
       - 27017:27017
