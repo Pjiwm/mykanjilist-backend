@@ -5,6 +5,7 @@ const GuideRoutes = require('./router/guide.routes')
 const PracticeResourceRoutes = require('./router/practiceresource.routes')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const errors = require('./errors')
 
 mongoose.Promise = global.Promise
 if (process.env.NODE_ENV === 'dev') {
@@ -35,7 +36,7 @@ app.use('*', function(err, req, res, next) {
     next(err)
 })
 
-// app.use('*', errors.handlers)
+app.use('*', errors.handlers)
 
 app.use('*', function(err, req, res, next) {
     res.status(500).json({
