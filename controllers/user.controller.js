@@ -33,8 +33,7 @@ class UserController {
         }
 
         const newUser = await User.create(body).catch(next)
-        newUser.save()
-
+        await newUser.save()
         console.log(newUser)
         const token = await sign(await newUser)
         res.send({
