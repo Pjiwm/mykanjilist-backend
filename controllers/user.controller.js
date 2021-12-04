@@ -35,13 +35,13 @@ class UserController {
         await User.create(body).catch(next)
         const newUser = await User.findOne({ userName: body.userName })
         console.log(newUser)
-        const token = await sign(await newUser)
+        // const token = await sign(await newUser)
 
         return res.send({
             _id: newUser._id,
             userName: newUser.userName,
             email: newUser.email,
-            token: token
+            // token: token
         })
     }
 
