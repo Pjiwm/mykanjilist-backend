@@ -12,7 +12,7 @@ class UserController {
      * @param {*} res - the response we give back after we tried to add the request object
      */
     async create({ body }, res, next) {
-        if(body.password === undefined) {
+        if (body.password === undefined) {
             res.status(400).send({ message: "password is missing" })
         }
         const hashedPassword = await bcrypt.hash(body.password, 10)
@@ -24,17 +24,17 @@ class UserController {
 
         body.password = hashedPassword
 
-        if (await duplicateCheck({ email: body.email })) { 
+        if (await duplicateCheck({ email: body.email })) {
             return res.status(400).json({ message: 'Email already in use' })
         }
 
-        if (await duplicateCheck({userName: body.userName})) {
+        if (await duplicateCheck({ userName: body.userName })) {
             return res.status(400).json({ message: 'Username already in use' })
         }
 
-        const newUser = await User.create(body).catch(next)
-        await newUser.save()
-        console.log(newUser)
+        await User.create(body).save().catch(next)
+        const newUser = await User.findOne({ userName: body.userName })
+            console.log(newUser)
         const token = await sign(await newUser)
         res.send({
             _id: newUser._id,
