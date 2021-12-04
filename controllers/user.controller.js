@@ -32,16 +32,14 @@ class UserController {
             return res.status(400).json({ message: 'Username already in use' })
         }
 
-        await User.create(body).catch(next)
-        const newUser = await User.findOne({ userName: body.userName })
-        console.log(newUser)
-        // const token = await sign(await newUser)
+        const newUser = await User.create(body).catch(next)
+        const token = await sign(await newUser)
 
-        return res.send({
+        res.send({
             _id: newUser._id,
             userName: newUser.userName,
             email: newUser.email,
-            // token: token
+            token: token
         })
     }
 
