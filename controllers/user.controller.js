@@ -12,6 +12,9 @@ class UserController {
      * @param {*} res - the response we give back after we tried to add the request object
      */
     async create({ body }, res, next) {
+        if(body.password === undefined) {
+            res.status(400).send({ message: "password is missing" })
+        }
         const hashedPassword = await bcrypt.hash(body.password, 10)
         if (!passwordCheck({ userName: body.password })) {
             return res.status(400).json({
