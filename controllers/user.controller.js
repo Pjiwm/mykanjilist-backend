@@ -36,7 +36,7 @@ class UserController {
         const newUser = await User.findOne({ userName: body.userName })
             console.log(newUser)
         const token = await sign(await newUser)
-        res.send({
+        await res.send({
             _id: newUser._id,
             userName: newUser.userName,
             email: newUser.email,
