@@ -6,6 +6,7 @@ const PracticeResourceRoutes = require('./router/practiceresource.routes')
 const UserRoutes = require('./router/user.routes')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const errors = require('./errors')
 
 mongoose.Promise = global.Promise
@@ -20,6 +21,7 @@ if (process.env.NODE_ENV === 'dev') {
 }
 
 app.use(bodyParser.json())
+app.use(cors())
 UserRoutes(app)
 kanjiListRoutes(app)
 GuideRoutes(app)
