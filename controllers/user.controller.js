@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const sign = require('../helpers/jwt.sign')
 const passwordCheck = require('../helpers/password.check')
 const duplicateCheck = require('../helpers/duplicate.user.check')
+const jwtDecode = require('../helpers/jwt.decode')
 
 class UserController {
 
@@ -36,6 +37,7 @@ class UserController {
         const token = await sign(await newUser)
 
         res.send({
+            message: 'Login Success',
             _id: newUser._id,
             userName: newUser.userName,
             email: newUser.email,
@@ -48,9 +50,21 @@ class UserController {
      * @param {*} params.id - the id of the user we want to get as a response
      * @param {*} res - the user with the given id
      */
-    async get({ params }, res, next) {
+    async getById({ params }, res, next) {
         const foundUser = await User.findById(params.id).catch(next)
         res.send(foundUser)
+    }
+
+    /**
+     * Returns the logged in user by decrypting the token
+     * 
+     * @param {*} req
+     * @param {*} res 
+     * @param {*} next 
+     */
+    async get({headers}, res, next) {
+        res.send(await jwtDecode(headers.authorization))
+
     }
 
     /**
