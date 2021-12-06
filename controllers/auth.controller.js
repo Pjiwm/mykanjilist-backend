@@ -12,7 +12,6 @@ class AuthController {
      */
     async login({ body }, res, next) {
         const foundUser = await User.findOne({ email: body.email })
-        console.log(foundUser)
         if (foundUser === null) {
             return res.status(401).json({
                 message: 'Email does not exist'
