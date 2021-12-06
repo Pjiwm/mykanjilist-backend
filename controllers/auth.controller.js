@@ -12,7 +12,7 @@ class AuthController {
      */
     async login({ body }, res, next) {
         const foundUser = await User.findOne({ email: body.email })
-
+        console.log(foundUser)
         if (foundUser === null) {
             return res.status(401).json({
                 message: 'Email does not exist'
@@ -24,9 +24,9 @@ class AuthController {
             const token = await sign(foundUser)
             return res.status(200).json({
                 message: 'Login Success',
-                _id: newUser._id,
-                userName: newUser.userName,
-                email: newUser.email,
+                _id: foundUser._id,
+                userName: foundUser.userName,
+                email: foundUser.email,
                 token: token
             })
         } else {
