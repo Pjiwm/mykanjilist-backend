@@ -10,7 +10,8 @@ module.exports = (app) => {
     // this is the login route
     app.post('/api/login', AuthController.login)
 
-    app.get('/api/user/:id', UserController.get)
+    app.get('/api/user/:id', jwtMiddleware, UserController.getById)
+    app.get('/api/user/', jwtMiddleware, UserController.get)
     app.put('/api/user/:id', jwtMiddleware, UserController.edit)
     app.delete('/api/user/:id', jwtMiddleware, UserController.delete)
 }
