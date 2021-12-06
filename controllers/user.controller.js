@@ -36,6 +36,7 @@ class UserController {
         const token = await sign(await newUser)
 
         res.send({
+            message: 'Login Success',
             _id: newUser._id,
             userName: newUser.userName,
             email: newUser.email,
