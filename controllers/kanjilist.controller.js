@@ -53,9 +53,18 @@ class GuideController {
      * @param {*} params.id - the id of the kanjilist we want to delete 
      * @param {*} res 
      */
-    async delete({ body, params }, res, next) {
+    async delete({params }, res, next) {
         const removedKanjiList = await KanjiList.findByIdAndDelete(params.id).catch(next)
             res.send({message: "deleted", object: removedKanjiList})
+    }
+
+    /**
+     * @param {*} params.id - the id of the user we want to get kanjilists from
+     */
+    async getByUserId({params}, res, next) {
+        const foundKanjiLists = await KanjiList.find({user: params.id}).catch(next)
+        console.log(foundKanjiLists)
+        res.send(foundKanjiLists)
     }
 }
 

@@ -55,6 +55,11 @@ class UserController {
         res.send(foundUser)
     }
 
+    async getUserNameById({ params }, res, next) {
+        const foundUser = await User.findOne(params.id).catch(next)
+        res.send(foundUser.userName)
+    }
+
     /**
      * Returns the logged in user by decrypting the token
      * 
@@ -62,7 +67,7 @@ class UserController {
      * @param {*} res 
      * @param {*} next 
      */
-    async get({headers}, res, next) {
+    async get({ headers }, res, next) {
         res.send(await jwtDecode(headers.authorization))
 
     }
