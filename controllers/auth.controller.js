@@ -24,7 +24,8 @@ class AuthController {
             const token = await sign(foundUser)
             return res.status(200).json({
                 message: 'Login Success',
-                token
+                token,
+                user: foundUser
             })
         } else {
             return res.status(401).json({
