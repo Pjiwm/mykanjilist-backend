@@ -10,7 +10,6 @@ class GuideController {
      */
     async create({ headers, body }, res, next) {
         const token = await jwtDecode(headers.authorization)
-        console.log(token)
         if (token.error !== undefined) {
             return res.status(token.code).send({ message: token.message })
         }

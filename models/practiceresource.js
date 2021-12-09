@@ -14,7 +14,7 @@ const PracticeResourceSchema = new Schema({
     },
     requiredSkills: {
         type: [String],
-        required: [true, 'guide requires a list of skills'],
+        required: [true, 'practice resource requires a list of skills'],
         validate: [validateRequiredSkills, 'list requires at least 1 skill'],
     },
     estimatedReadingTime: {
@@ -22,10 +22,15 @@ const PracticeResourceSchema = new Schema({
         required: [true, 'practice resource requires an estimated reading time'],
         validate: [validateReadingTime, 'The estimated reading time must be at least 1 minute']
     },
+    kanjilist: {
+        type: Schema.Types.ObjectId,
+        ref: 'kanjilist',
+        autopopulate: true
+    },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'user',
-        required: [true, 'guide needs a user'],
+        required: [true, 'practice resource needs a user'],
         autopopulate: false
     }
 

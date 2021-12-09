@@ -10,7 +10,6 @@ class GuideController {
      */
     async create({ headers, body }, res, next) {
         const token = await jwtDecode(headers.authorization) 
-        console.log(token)   
         if(token.error !== undefined) {
             return res.status(token.code).send({message: token.message})
         }
@@ -63,7 +62,6 @@ class GuideController {
      */
     async getByUserId({params}, res, next) {
         const foundKanjiLists = await KanjiList.find({user: params.id}).catch(next)
-        console.log(foundKanjiLists)
         res.send(foundKanjiLists)
     }
 }

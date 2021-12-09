@@ -1,12 +1,17 @@
 const mongoose = require('mongoose')
 
 before( async () => {
-    await mongoose.connect('mongodb://uber_mongo/uber_test')
+    await mongoose.connect('mongodb://kanji_mongo/mykanjilist_test')
 })
 
 beforeEach( async () => {
-    const { drivers } = mongoose.connection.collections
-    await drivers.drop().catch(() => {
+    const { kanjilist } = mongoose.connection.collections
+    await kanjilist.drop().catch(() => {
         console.log('Database is still empty!')
     })
+})
+
+
+getJwt(async () => {
+    
 })
