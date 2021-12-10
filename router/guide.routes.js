@@ -7,4 +7,5 @@ module.exports = (app) => {
     app.get('/api/guide', GuideController.getAll)
     app.put('/api/guide/:id', jwtMiddleware, GuideController.edit)
     app.delete('/api/guide/:id', jwtMiddleware, GuideController.delete)
+    app.get('/api/guide/user/:id', GuideController.getByUserId)
 }

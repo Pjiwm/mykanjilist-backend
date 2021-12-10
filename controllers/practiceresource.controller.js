@@ -10,7 +10,6 @@ class PracticeResourceController {
      */
     async create({ headers, body }, res, next) {
         const token = await jwtDecode(headers.authorization) 
-        console.log(token)   
         if(token.error !== undefined) {
             return res.status(token.code).send({message: token.message})
         }
@@ -57,6 +56,15 @@ class PracticeResourceController {
         const removedPracticeResource = await PracticeResource.findByIdAndDelete(params.id).catch(next)
             res.send({message: "deleted", object: removedPracticeResource})
     }
+    
+    /**
+     * 
+     * @param {*} params.id - the id of the user we want to get practice resources from
+     */
+         async getByUserId({params}, res, next) {
+            const foundPracticeResource = await PracticeResource.find({user: params.id}).catch(next)
+            res.send(foundPracticeResource)
+        }
 }
 
 module.exports = new PracticeResourceController()

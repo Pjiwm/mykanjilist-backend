@@ -7,4 +7,5 @@ module.exports = (app) => {
     app.get('/api/practiceresource', PracticeResourceController.getAll)
     app.put('/api/practiceresource/:id', jwtMiddleware, PracticeResourceController.edit)
     app.delete('/api/practiceresource/:id', jwtMiddleware, PracticeResourceController.delete)
+    app.get('/api/practiceresource/user/:id', PracticeResourceController.getByUserId)
 }

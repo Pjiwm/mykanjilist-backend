@@ -7,4 +7,5 @@ module.exports = (app) => {
     app.get('/api/kanjilist', KanjiListController.getAll)
     app.put('/api/kanjilist/:id', jwtMiddleware, KanjiListController.edit)
     app.delete('/api/kanjilist/:id', jwtMiddleware, KanjiListController.delete)
+    app.get('/api/kanjilist/user/:id', KanjiListController.getByUserId)
 }

@@ -8,11 +8,10 @@ class GuideController {
      * @param {*} body - the body of the request
      * @param {*} res - the response we give back after we tried to add the request object
      */
-    async create({headers, body}, res, next) {
-        const token = await jwtDecode(headers.authorization) 
-        console.log(token)   
-        if(token.error !== undefined) {
-            return res.status(token.code).send({message: token.message})
+    async create({ headers, body }, res, next) {
+        const token = await jwtDecode(headers.authorization)
+        if (token.error !== undefined) {
+            return res.status(token.code).send({ message: token.message })
         }
         body.user = token._id
         const newGuide = await Guide.create(body).catch(next)
@@ -24,7 +23,7 @@ class GuideController {
      * @param {*} params.id - the id of the guide we want to get as a response
      * @param {*} res - the guide with the given id
      */
-    async get({params}, res, next) {
+    async get({ params }, res, next) {
         const foundGuide = await Guide.findById(params.id).catch(next)
         res.send(foundGuide)
     }
@@ -52,9 +51,18 @@ class GuideController {
      * @param {*} params.id - the id of the guide we want to delete 
      * @param {*} res 
      */
-    async delete({ body, params }, res, next) {
+    async delete({ params }, res, next) {
         const removedguide = await Guide.findByIdAndDelete(params.id).catch(next)
-            res.send({message: "deleted", object: removedguide})
+        res.send({ message: "deleted", object: removedguide })
+    }
+
+    /**
+     * 
+     * @param {*} params.id - the user id we get the guides from
+     */
+    async getByUserId({ params }, res, next) {
+        const foundGuide = await Guide.find({ user: params.id }).catch(next)
+        res.send(foundGuide)
     }
 }
 
