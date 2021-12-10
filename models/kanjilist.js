@@ -25,7 +25,7 @@ const KanjiListSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'user',
-        required: [true, 'guide needs a user'],
+        required: [true, 'kanjilist needs a user'],
         autopopulate: false
     }
 

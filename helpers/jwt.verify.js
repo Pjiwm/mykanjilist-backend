@@ -13,7 +13,6 @@ module.exports = async function (req, res, next) {
         jwt.verify(token, secret)
         req.user = jwt.decode(token)
         isSignedIn = true
-        console.log('try')
         // check ownership
         if (req.method === "DELETE" || req.method === "PUT") {
             const model = req.url.split("/")[2]
