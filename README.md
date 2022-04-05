@@ -52,7 +52,7 @@ Receives a single kanji list based on the ID
 Receives all the kanji lists from a user based on the users ID
 
 `PUT`
-`/api/kanjilist/user/:id`
+`/api/kanjilist/:id`
 Updates the kanji list with the corresponding ID
 ```JSON
 {
@@ -64,7 +64,7 @@ Updates the kanji list with the corresponding ID
 ```
 
 `DELETE`
-`/api/kanjilist/user/:id`
+`/api/kanjilist/:id`
 Deletes the kanji list with the corresponding ID
 
 ### Guide

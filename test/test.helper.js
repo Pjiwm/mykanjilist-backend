@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 
 before(async () => {
-    await mongoose.connect('mongodb://kanji_mongo/mykanjilist_test')
+    const connectionString = process.env.DATABASE_CONNECTION
+    await mongoose.connect(`${connectionString}/mykanjilist_test`)
 })
 
 beforeEach(async () => {

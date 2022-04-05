@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'dev') {
 
 } else if (process.env.NODE_ENV === 'prod') {
     const connectionString = process.env.DATABASE_CONNECTION
-    mongoose.connect(connectionString)
+    mongoose.connect(`${connectionString}/kanji`)
     console.log('Connected to production database')
     app.use(cors())
 
