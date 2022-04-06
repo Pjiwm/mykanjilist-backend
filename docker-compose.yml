@@ -16,10 +16,11 @@ services:
     environment:
       DATABASE_CONNECTION: ${DATABASE_CONNECTION}
       JWT_SECRET: ${JWT_SECRET}
+      NEO_USER: ${NEO_USER}
+      NEO_PASSWORD: ${NEO_PASSWORD}
 
   mongo:
     container_name: kanji_mongo
-    #restart: always
     image: mongo
     ports:
       - 27017:27017
@@ -32,3 +33,13 @@ services:
     ports:
       - "7474:7474"
       - "7687:7687"
+    volumes:
+      - ./data/neo:/data/neo
+  neo4j_test:
+    image: neo4j:4.0.3
+    container_name: kanji_neo4j_test
+    ports:
+      - "7475:7474"
+      - "7688:7687"
+    volumes:
+      - ./data/neo_test:/data/neo_test

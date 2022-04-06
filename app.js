@@ -5,13 +5,17 @@ const GuideRoutes = require('./router/guide.routes')
 const PracticeResourceRoutes = require('./router/practiceresource.routes')
 const UserRoutes = require('./router/user.routes')
 const bodyParser = require('body-parser')
+const neo4j = require('./neo')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const errors = require('./errors')
 
 mongoose.Promise = global.Promise
 if (process.env.NODE_ENV === 'dev') {
-    mongoose.connect('mongodb://kanji_mongo/mykanjilist')
+    const connectionString = process.env.DATABASE_CONNECTION
+    mongoose.connect(`${connectionString}/mykanjilist`)
+    neo4j.connect("neo4j")
+    neo_test()
     console.log('Connected to docker database')
 
 } else if (process.env.NODE_ENV === 'prod') {
