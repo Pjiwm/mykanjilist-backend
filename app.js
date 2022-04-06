@@ -3,6 +3,7 @@ const app = express()
 const kanjiListRoutes = require('./router/kanjilist.routes')
 const GuideRoutes = require('./router/guide.routes')
 const PracticeResourceRoutes = require('./router/practiceresource.routes')
+const FriendRoutes = require('./router/friend.routes')
 const UserRoutes = require('./router/user.routes')
 const bodyParser = require('body-parser')
 const neo4j = require('./neo')
@@ -15,7 +16,6 @@ if (process.env.NODE_ENV === 'dev') {
     const connectionString = process.env.DATABASE_CONNECTION
     mongoose.connect(`${connectionString}/mykanjilist`)
     neo4j.connect("neo4j")
-    neo_test()
     console.log('Connected to docker database')
 
 } else if (process.env.NODE_ENV === 'prod') {
@@ -31,6 +31,8 @@ UserRoutes(app)
 kanjiListRoutes(app)
 GuideRoutes(app)
 PracticeResourceRoutes(app)
+FriendRoutes(app)
+
 
 
 // errors
