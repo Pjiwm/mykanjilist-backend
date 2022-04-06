@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 const express = require('express')
 const app = express()
 const kanjiListRoutes = require('./router/kanjilist.routes')
@@ -15,7 +17,7 @@ mongoose.Promise = global.Promise
 if (process.env.NODE_ENV === 'dev') {
     const connectionString = process.env.DATABASE_CONNECTION
     mongoose.connect(`${connectionString}/mykanjilist`)
-    neo4j.connect("neo4j")
+    neo4j.connect('neo4j')
     console.log('Connected to docker database')
 
 } else if (process.env.NODE_ENV === 'prod') {

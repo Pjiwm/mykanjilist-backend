@@ -6,13 +6,13 @@ const UserSchema = new Schema({
         type: String,
         required: [true, 'user needs a username'],
         validate: [validateUserName, 'A username must be at least 5 characters long'],
-        unique: [true, "username already in-use"],
+        unique: [true, 'username already in-use'],
     },
     email: {
         type: String,
         required: [true, 'user needs an email address'],
         validate: [validateEmail, 'Please enter a valid email address'],
-        unique: [true, "email already in-use"],
+        unique: [true, 'email already in-use'],
     },
     password: {
         type: String,
@@ -34,6 +34,7 @@ function validateUserName(val) {
 }
 
 function validateEmail(val) {
+    // eslint-disable-next-line no-useless-escape
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(String(val).toLowerCase())
 }

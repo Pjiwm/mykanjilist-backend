@@ -10,7 +10,7 @@ class AuthController {
      * @param {*} res - the token that's needed for authentication
      * @returns 
      */
-    async login({ body }, res, next) {
+    async login({ body }, res) {
         const foundUser = await User.findOne({ email: body.email })
         if (foundUser === null) {
             return res.status(401).json({

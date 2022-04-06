@@ -16,7 +16,7 @@ class FriendController {
 
         const requestedFriend = await User.findOne({ _id: body.friend }).catch(next)
         if (requestedFriend === null) {
-            res.status(400).send({ message: "user not specified" })
+            res.status(400).send({ message: 'user not specified' })
         }
 
         const session = neo.session()
@@ -24,10 +24,10 @@ class FriendController {
         const friendship = neoresult.records[0].get('friendship')
         session.close()
 
-        if (friendship[0].type == "FRIEND_REQUESTED") {
-            return res.send({ message: "friend request sent" })
+        if (friendship[0].type == 'FRIEND_REQUESTED') {
+            return res.send({ message: 'friend request sent' })
         }
-        res.status(422).send({ message: "friend request failed" })
+        res.status(422).send({ message: 'friend request failed' })
 
     }
     /**
@@ -45,19 +45,19 @@ class FriendController {
         const session = neo.session()
         if (body.accept === true) {
             await session.run(neo.acceptRequest, { user1Id: token._id, user2Id: params.id }).catch(() => {
-                return res.status(422).send({ message: "Something went wrong" })
+                return res.status(422).send({ message: 'Something went wrong' })
             })
-            session.close();
-            return res.send({ message: "Friend added" })
+            session.close()
+            return res.send({ message: 'Friend added' })
         }
 
         if (body.accept === false) {
-            await session.run(neo.ignoreRequest, { user1Id: result, user2Id: arams.id }).catch(() => {
-                return res.status(422).send({ message: "Something went wrong" })
+            await session.run(neo.ignoreRequest, { user1Id: token._id, user2Id: params.id }).catch(() => {
+                return res.status(422).send({ message: 'Something went wrong' })
             })
         }
 
-        res.status(400).send({ message: "the body property accept (bool) has not been specified" })
+        res.status(400).send({ message: 'the body property accept (bool) has not been specified' })
     }
 
     /**
@@ -83,10 +83,9 @@ class FriendController {
     /**
      * Gets all the friend requests from a user
      * @param {*} res 
-     * @param {*} next 
      * @returns 
      */
-    async getRequests({headers}, res, next) {
+    async getRequests({headers}, res) {
         const token = await jwtDecode(headers.authorization)
         if (token.error !== undefined) {
             return res.status(token.code).send({ message: token.message })
@@ -114,31 +113,12 @@ class FriendController {
         }
         const requestedFriend = await User.findOne({ _id: body.friend }).catch(next)
         if (requestedFriend === null) {
-            res.status(400).send({ message: "user not specified" })
+            res.status(400).send({ message: 'user not specified' })
         }
         const session = neo.session()
         await session.run(neo.removeFriend, { user1Id: token._id, user2Id: requestedFriend.id })
         session.close()
-        res.send({ message: "successfully removed friend" })
-    }
-
-    /**
-     * Updates a guide
-     * @param {*} params.id - the id of the guide we want to update
-     * @param {*} res - the response we give back after the guide is updated
-     */
-    async edit({ body, params }, res, next) {
-        await Guide.findByIdAndUpdate({ _id: params.id }, body).catch(next)
-        res.send(await Guide.findById(params.id))
-    }
-
-    /**
-     * 
-     * @param {*} params.id - the user id we get the guides from
-     */
-    async getByUserId({ params }, res, next) {
-        const foundGuide = await Guide.find({ user: params.id }).catch(next)
-        res.send(foundGuide)
+        res.send({ message: 'successfully removed friend' })
     }
 }
 
