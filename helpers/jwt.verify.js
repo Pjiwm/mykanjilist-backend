@@ -13,7 +13,6 @@ module.exports = async function (req, res, next) {
         jwt.verify(token, secret)
         req.user = jwt.decode(token)
         isSignedIn = true
-        console.log('try')
         // check ownership
         if (req.method === "DELETE" || req.method === "PUT") {
             const model = req.url.split("/")[2]
@@ -35,6 +34,9 @@ module.exports = async function (req, res, next) {
                     if (JSON.stringify(req.user.id) === JSON.stringify(guide.user._id)) {
                         return next()
                     }
+                    // because we need the header token within the friend controller itself checking it within here would be redunded.
+                case "friend":
+                    return next()
                     break
 
             }

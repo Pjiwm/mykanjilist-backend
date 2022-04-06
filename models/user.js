@@ -43,19 +43,5 @@ module.exports = mongoose.model('User', UserSchema)
 
 module.exports = mongoose.model('User', UserSchema)
 
-UserSchema.pre('remove', async function () {
-    // include the product model here to avoid cyclic inclusion
-    const Product = mongoose.model('Product')
-
-    // don't iterate here! we want to use mongo operators!
-    // this makes sure the code executes inside mongo
-    await Product.updateMany({}, { $pull: { 'kanjilist': { 'user': this._id } } })
-    await Product.updateMany({}, { $pull: { 'guidee': { 'user': this._id } } })
-    await Product.updateMany({}, { $pull: { 'practiceresource': { 'user': this._id } } })
-
-})
-
-
-
 const user = mongoose.model('user', UserSchema)
 module.exports = user
