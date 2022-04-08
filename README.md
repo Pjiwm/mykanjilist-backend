@@ -157,7 +157,34 @@ ALlows reference to kanji list via id
 `/api/practiceresource/user/:id`
 Deletes the practice resource with the corresponding ID
 
+## Common queries
+|               | POST          | GET  | PUT | DELETE |
+| ------------- |:-------------:| :-----:|:-----:|-----:|
+| /api/kanjilist      | 3 | 5 | X|X|
+| /api/kanjilist/:id      | X | 4 | 1|1|
+| /api/guide     | 2 | 5 | X|X|
+| /api/guide/:id     | X | 3 | 2|2|
+| /api/practiceresource     | 2 | 5 | X|X|
+| /api/practiceresource/:id     | X | 3 | 2|2|
+| /api/login     | 4 | X | X|X|
+
+Friends have not been included in the frontend, so this is hypothetical.
+
+|               | POST          | GET  | PUT | DELETE |
+| ------------- |:-------------:| :-----:|:-----:|-----:|
+| /api/friend      | 3 | 5 | X|2|
+| /api/friend/:id      | 3 | X | X|X|
+| /api/friend/requests      | X | 5 | X|X|
+
+## Mongo model:
+<img src="https://angular-sandbox-avans.web.app/assets/images/data-model.png" img-width="65%">
+
+## NEO model:
+<img src="https://i.imgur.com/46lbphO.png">
+
+Friend requests get removed automatically upon accepting or denying a friend request.
 
 ## ERD:
 <img src="https://i.imgur.com/4F1YIZS.png">
+
 
