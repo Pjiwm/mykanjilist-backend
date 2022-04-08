@@ -53,7 +53,7 @@ class GuideController {
      */
     async delete({ params }, res, next) {
         const removedguide = await Guide.findByIdAndDelete(params.id).catch(next)
-        res.send({ message: "deleted", object: removedguide })
+        res.send({ message: 'deleted', object: removedguide })
     }
 
     /**

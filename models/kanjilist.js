@@ -56,6 +56,10 @@ function validateDescription(val) {
     return val.length >= 20
 }
 
+KanjiListSchema.pre('findOneAndUpdate', function (next) {
+    this.options.runValidators = true
+    next()
+})
 
 const kanjilist = mongoose.model('kanjilist', KanjiListSchema)
 module.exports = kanjilist

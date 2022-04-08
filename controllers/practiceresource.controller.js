@@ -9,9 +9,9 @@ class PracticeResourceController {
      * @param {*} res - the response we give back after we tried to add the request object
      */
     async create({ headers, body }, res, next) {
-        const token = await jwtDecode(headers.authorization) 
-        if(token.error !== undefined) {
-            return res.status(token.code).send({message: token.message})
+        const token = await jwtDecode(headers.authorization)
+        if (token.error !== undefined) {
+            return res.status(token.code).send({ message: token.message })
         }
         body.user = token._id
 
@@ -24,7 +24,7 @@ class PracticeResourceController {
      * @param {*} params.id - the id of the practice resource we want to get as a response
      * @param {*} res - the practice resource with the given id
      */
-    async get({params}, res, next) {
+    async get({ params }, res, next) {
         const foundPracticeResource = await PracticeResource.findById(params.id).catch(next)
         res.send(foundPracticeResource)
     }
@@ -52,19 +52,19 @@ class PracticeResourceController {
      * @param {*} params.id - the id of the practice resource we want to delete 
      * @param {*} res 
      */
-    async delete({ body, params }, res, next) {
+    async delete({ params }, res, next) {
         const removedPracticeResource = await PracticeResource.findByIdAndDelete(params.id).catch(next)
-            res.send({message: "deleted", object: removedPracticeResource})
+        res.send({ message: 'deleted', object: removedPracticeResource })
     }
-    
+
     /**
      * 
      * @param {*} params.id - the id of the user we want to get practice resources from
      */
-         async getByUserId({params}, res, next) {
-            const foundPracticeResource = await PracticeResource.find({user: params.id}).catch(next)
-            res.send(foundPracticeResource)
-        }
+    async getByUserId({ params }, res, next) {
+        const foundPracticeResource = await PracticeResource.find({ user: params.id }).catch(next)
+        res.send(foundPracticeResource)
+    }
 }
 
 module.exports = new PracticeResourceController()

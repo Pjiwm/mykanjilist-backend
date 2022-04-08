@@ -52,6 +52,11 @@ function validateContent(val) {
     return val.length >= 250
 }
 
+GuideSchema.pre('findOneAndUpdate', function (next) {
+    this.options.runValidators = true
+    next()
+})
+
 
 const guide = mongoose.model('guide', GuideSchema)
 module.exports = guide

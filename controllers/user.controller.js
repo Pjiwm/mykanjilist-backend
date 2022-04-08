@@ -14,12 +14,12 @@ class UserController {
      */
     async create({ body }, res, next) {
         if (body.password === undefined) {
-            res.status(400).send({ message: "password is missing" })
+            res.status(400).send({ message: 'password is missing' })
         }
         const hashedPassword = await bcrypt.hash(body.password, 10)
         if (!passwordCheck({ userName: body.password })) {
             return res.status(400).json({
-                message: "Password needs to be at least 8 chacters long and contain a number"
+                message: 'Password needs to be at least 8 chacters long and contain a number'
             })
         }
 
@@ -65,9 +65,8 @@ class UserController {
      * 
      * @param {*} req
      * @param {*} res 
-     * @param {*} next 
      */
-    async get({ headers }, res, next) {
+    async get({ headers }, res) {
         res.send(await jwtDecode(headers.authorization))
 
     }
@@ -86,9 +85,9 @@ class UserController {
      * @param {*} params.id - the id of the user we want to delete 
      * @param {*} res 
      */
-    async delete({ body, params }, res, next) {
+    async delete({ params }, res, next) {
         const removedUser = await User.findByIdAndDelete(params.id).catch(next)
-        res.send({ message: "deleted", object: removedUser })
+        res.send({ message: 'deleted', object: removedUser })
     }
 
 }

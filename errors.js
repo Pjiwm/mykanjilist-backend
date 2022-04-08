@@ -40,7 +40,7 @@ function duplicateUserNameOrEmail(err, req, res, next) {
     if (err.code !== 11000) {
         return next(err)
     }
-    let errorKey = err.errmsg.split("index:")[1].split("dup key")[0].split("_")[0]
+    let errorKey = err.errmsg.split('index:')[1].split('dup key')[0].split('_')[0]
     if (errorKey === ' userName') {
         return res.status(400).json({
             message: 'Username already in use'

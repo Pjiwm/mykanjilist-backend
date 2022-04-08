@@ -1,17 +1,20 @@
+/* eslint-disable no-undef */
 const neo4j = require('neo4j-driver')
 
 function connect(dbName) {
-    this.dbName = dbName;
+    this.dbName = dbName
     if (process.env.NODE_ENV !== 'test') {
         this.driver = neo4j.driver(
-            "bolt://neo4j",
+            'bolt://neo4j',
             neo4j.auth.basic(process.env.NEO_USER, process.env.NEO_PASSWORD)
         )
+        console.log('neo4j dev db')
     } else {
         this.driver = neo4j.driver(
-            "bolt://neo4j2",
+            'bolt://neo4j_test',
             neo4j.auth.basic(process.env.NEO_USER, process.env.NEO_PASSWORD)
         )
+        console.log('neo4j test db')
     }
 }
 

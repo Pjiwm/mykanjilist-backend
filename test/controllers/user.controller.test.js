@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const assert = require('assert')
 const request = require('supertest')
 const app = require('../../app')
@@ -9,9 +10,9 @@ describe('Kanjilist controller', () => {
     let userReq
     beforeEach(async () => {
         userReq = await request(app).post('/api/register').send({
-            userName: "tester",
-            password: "tester123",
-            email: "testman@test.com"
+            userName: 'tester',
+            password: 'tester123',
+            email: 'testman@test.com'
         })
     })
 
@@ -19,7 +20,7 @@ describe('Kanjilist controller', () => {
     it('posts to /api/login and gives valid login information and a token', async () => {
         const foundUser = await request(app).post('/api/login').send({
             email: userReq.body.email,
-            password: "tester123"
+            password: 'tester123'
         })
         assert(foundUser.body.email === userReq.body.email)
         assert(foundUser.body.userName === userReq.body.userName)
@@ -51,14 +52,14 @@ describe('Kanjilist controller', () => {
         await newKanjiList.save()
 
         wrongUserReq = await request(app).post('/api/register').send({
-            userName: "tester2",
-            password: "tester1234",
-            email: "testwrongMan@test.com"
+            userName: 'tester2',
+            password: 'tester1234',
+            email: 'testwrongMan@test.com'
         })
 
         const req = await request(app).put(`/api/kanjilist/${newKanjiList._id}`)
-            .set("Authorization", `Bearer ${wrongUserReq.body.token}`)
-            .send({ name: "new Name" })
+            .set('Authorization', `Bearer ${wrongUserReq.body.token}`)
+            .send({ name: 'new Name' })
         assert(req.body.code === 401)
 
     })
@@ -66,15 +67,15 @@ describe('Kanjilist controller', () => {
     // REGISTER
     it('posts a user from /api/register/', async () => {
         const doubleTester = await request(app).post('/api/register').send({
-            userName: "tester",
-            password: "tester123",
-            email: "testman@test.com"
+            userName: 'tester',
+            password: 'tester123',
+            email: 'testman@test.com'
         })
 
         const newTester = await request(app).post('/api/register').send({
-            userName: "testerNEW",
-            password: "tester123",
-            email: "testerNEW@test.com"
+            userName: 'testerNEW',
+            password: 'tester123',
+            email: 'testerNEW@test.com'
         })
 
         assert(newTester.body.message === 'Login Success')
