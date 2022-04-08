@@ -8,11 +8,13 @@ function connect(dbName) {
             'bolt://neo4j',
             neo4j.auth.basic(process.env.NEO_USER, process.env.NEO_PASSWORD)
         )
+        console.log('neo4j dev db')
     } else {
         this.driver = neo4j.driver(
-            'bolt://neo4j2',
+            'bolt://neo4j_test',
             neo4j.auth.basic(process.env.NEO_USER, process.env.NEO_PASSWORD)
         )
+        console.log('neo4j test db')
     }
 }
 

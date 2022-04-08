@@ -36,6 +36,7 @@ class FriendController {
      * @param {*} res - The result wheter or not the friend request has succesfully been accepted
      * @param {*} body - The body property accept (bool) will define wheter we accept or deny the friend offer
      */
+    // eslint-disable-next-line no-unused-vars
     async acceptOrDecline({ params, headers, body }, res, next) {
         const token = await jwtDecode(headers.authorization)
         if (token.error !== undefined) {
