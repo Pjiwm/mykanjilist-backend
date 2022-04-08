@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const assert = require('assert')
 const request = require('supertest')
 const app = require('../../app')
@@ -7,18 +8,18 @@ const kanjilist = mongoose.model('kanjilist')
 describe('Kanjilist controller', () => {
     const preList =
     {
-        "name": "Test api",
-        "description": "testing the api with a test object in here!",
-        "tags": ["test"],
-        "kanji": ["価", "格", "目", "録"],
-        "creationDate": "2021-12-08T14:52:35.607Z"
+        'name': 'Test api',
+        'description': 'testing the api with a test object in here!',
+        'tags': ['test'],
+        'kanji': ['価', '格', '目', '録'],
+        'creationDate': '2021-12-08T14:52:35.607Z'
     }
     let token, userId
     beforeEach(async () => {
         const user = await request(app).post('/api/register').send({
-            userName: "tester",
-            password: "tester123",
-            email: "testman@test.com"
+            userName: 'tester',
+            password: 'tester123',
+            email: 'testman@test.com'
         })
         token = user.body.token
         userId = user.body._id
@@ -28,7 +29,7 @@ describe('Kanjilist controller', () => {
     it('posts to /api/kanjilist and creates a new kanjilist', async () => {
         const oldCount = await kanjilist.count()
         await request(app).post('/api/kanjilist')
-            .set("Authorization", `Bearer ${token}`)
+            .set('Authorization', `Bearer ${token}`)
             .send(preList)
 
         const newCount = await kanjilist.count()
@@ -40,7 +41,7 @@ describe('Kanjilist controller', () => {
         let wrongList = { ...preList, kanji: ['漢'] }
         const oldCount = await kanjilist.count()
         await request(app).post('/api/kanjilist')
-            .set("Authorization", `Bearer ${token}`)
+            .set('Authorization', `Bearer ${token}`)
             .send(wrongList)
 
         const newCount = await kanjilist.count()
@@ -71,11 +72,11 @@ describe('Kanjilist controller', () => {
         await newKanjiList.save()
 
         await request(app).put(`/api/kanjilist/${newKanjiList._id}`)
-            .set("Authorization", `Bearer ${token}`)
-            .send({ name: "new Name" })
+            .set('Authorization', `Bearer ${token}`)
+            .send({ name: 'new Name' })
 
         const foundKanjiList = await kanjilist.findOne({ email: preList.email })
-        assert(foundKanjiList.name === "new Name")
+        assert(foundKanjiList.name === 'new Name')
     })
 
     // DELETE
@@ -84,7 +85,7 @@ describe('Kanjilist controller', () => {
         await newKanjiList.save()
 
         await request(app).delete(`/api/kanjilist/${newKanjiList._id}`)
-            .set("Authorization", `Bearer ${token}`)
+            .set('Authorization', `Bearer ${token}`)
 
         const foundKanjiList = await kanjilist.findOne({ email: preList.email })
         assert(foundKanjiList === null)

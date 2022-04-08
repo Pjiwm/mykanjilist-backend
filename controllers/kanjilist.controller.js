@@ -54,7 +54,7 @@ class GuideController {
      */
     async delete({params }, res, next) {
         const removedKanjiList = await KanjiList.findByIdAndDelete(params.id).catch(next)
-            res.send({message: "deleted", object: removedKanjiList})
+        res.send({message: 'deleted', object: removedKanjiList})
     }
 
     /**

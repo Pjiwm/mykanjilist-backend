@@ -19,5 +19,8 @@
         "neo4j-driver": "^4.4.5",
         "nodemon": "^2.0.15",
         "supertest": "^6.1.6"
+    },
+    "devDependencies": {
+        "eslint": "^8.12.0"
     }
 }

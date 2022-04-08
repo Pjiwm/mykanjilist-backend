@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const assert = require('assert')
 const request = require('supertest')
 const app = require('../../app')
@@ -7,21 +8,21 @@ const guide = mongoose.model('guide')
 describe('guide controller', () => {
     const preGuide =
     {
-        "title": "my new guide",
-        "tags": ["new", "test"],
-        "content": "" +
-            "I spent the first year of my Japanese studies lackadaisically studying kanji the way that everyone told me to study kanji: write each character a zillion times until it sticks in your brain. And, yeah, that was a huge disaster. So, after a year of studying, I knew a pretty solid smattering of Japanese, but I only knew about 500 kanji, despite having studied the kanji a lot." +
-            "" +
-            "You might be thinking that 500 kanji is a pretty solid amount, but with kanji it’s kind of an all-or-nothing deal. Either you know them or you don’t. Knowing only the most common kanji is certainly better than nothing, but if you can’t read all the common-use characters, you’re still illiterate. And being illiterate sucks." +
-            "" +
-            "\";",
+        'title': 'my new guide',
+        'tags': ['new', 'test'],
+        'content': '' +
+            'I spent the first year of my Japanese studies lackadaisically studying kanji the way that everyone told me to study kanji: write each character a zillion times until it sticks in your brain. And, yeah, that was a huge disaster. So, after a year of studying, I knew a pretty solid smattering of Japanese, but I only knew about 500 kanji, despite having studied the kanji a lot.' +
+            '' +
+            'You might be thinking that 500 kanji is a pretty solid amount, but with kanji it’s kind of an all-or-nothing deal. Either you know them or you don’t. Knowing only the most common kanji is certainly better than nothing, but if you can’t read all the common-use characters, you’re still illiterate. And being illiterate sucks.' +
+            '' +
+            '";',
     }
     let token, userId
     beforeEach(async () => {
         const user = await request(app).post('/api/register').send({
-            userName: "tester",
-            password: "tester123",
-            email: "testman@test.com"
+            userName: 'tester',
+            password: 'tester123',
+            email: 'testman@test.com'
         })
         token = user.body.token
         userId = user.body._id
@@ -31,7 +32,7 @@ describe('guide controller', () => {
     it('posts to /api/guide and creates a new guide', async () => {
         const oldCount = await guide.count()
         await request(app).post('/api/guide')
-            .set("Authorization", `Bearer ${token}`)
+            .set('Authorization', `Bearer ${token}`)
             .send(preGuide)
 
         const newCount = await guide.count()
@@ -40,10 +41,10 @@ describe('guide controller', () => {
 
     // CREATE
     it('posts to /api/guide and fails to create a new guide due to a the content being < 250 characters', async () => {
-        let wrongGuide = { ...preGuide, content: "not 250 chracters long" }
+        let wrongGuide = { ...preGuide, content: 'not 250 chracters long' }
         const oldCount = await guide.count()
         await request(app).post('/api/guide')
-            .set("Authorization", `Bearer ${token}`)
+            .set('Authorization', `Bearer ${token}`)
             .send(wrongGuide)
 
         const newCount = await guide.count()
@@ -74,11 +75,11 @@ describe('guide controller', () => {
         await newguide.save()
 
         await request(app).put(`/api/guide/${newguide._id}`)
-            .set("Authorization", `Bearer ${token}`)
-            .send({ title: "new Name" })
+            .set('Authorization', `Bearer ${token}`)
+            .send({ title: 'new Name' })
 
         const foundguide = await guide.findOne({ email: preGuide.email })
-        assert(foundguide.title === "new Name")
+        assert(foundguide.title === 'new Name')
     })
 
     // DELETE
@@ -87,7 +88,7 @@ describe('guide controller', () => {
         await newguide.save()
 
         await request(app).delete(`/api/guide/${newguide._id}`)
-            .set("Authorization", `Bearer ${token}`)
+            .set('Authorization', `Bearer ${token}`)
 
         const foundguide = await guide.findOne({ email: preGuide.email })
         assert(foundguide === null)
