@@ -39,12 +39,41 @@ describe('practiceresource controller', () => {
     it('posts to /api/practiceresource and fails to create a new resource due to reading time being lower than 1', async () => {
         let wrongResource = { ...preResource, estimatedReadingTime: 0 }
         const oldCount = await practiceResource.count()
-        await request(app).post('/api/practiceresource')
+        const response = await request(app).post('/api/practiceresource')
             .set('Authorization', `Bearer ${token}`)
             .send(wrongResource)
 
         const newCount = await practiceResource.count()
         assert(newCount !== oldCount + 1)
+        assert(response.statusCode === 400)
+    })
+
+    // CREATE
+    it('posts to /api/practiceresource and fails to create a new resource due to content being too short', async () => {
+        let wrongResource = { ...preResource, content: 'way too short' }
+        const oldCount = await practiceResource.count()
+        const response = await request(app).post('/api/practiceresource')
+            .set('Authorization', `Bearer ${token}`)
+            .send(wrongResource)
+
+        const newCount = await practiceResource.count()
+        assert(newCount !== oldCount + 1)
+        assert(response.statusCode === 400)
+
+    })
+
+    // CREATE
+    it('posts to /api/practiceresource and fails to create a new resource due to emppty required skills', async () => {
+        let wrongResource = { ...preResource, requiredSkills: [] }
+        const oldCount = await practiceResource.count()
+        const response = await request(app).post('/api/practiceresource')
+            .set('Authorization', `Bearer ${token}`)
+            .send(wrongResource)
+
+        const newCount = await practiceResource.count()
+        assert(newCount !== oldCount + 1)
+        assert(response.statusCode === 400)
+
     })
 
     // READ
@@ -54,6 +83,7 @@ describe('practiceresource controller', () => {
         const foundResource = await request(app).get(`/api/practiceresource/${newResource._id}`)
         assert(foundResource.body._id.toString() === newResource._id.toString())
     })
+
     // READ
     it('gets all practiceresource from api/practiceresource', async () => {
         const resourceCount = 10
@@ -72,10 +102,52 @@ describe('practiceresource controller', () => {
 
         await request(app).put(`/api/practiceresource/${newResource._id}`)
             .set('Authorization', `Bearer ${token}`)
-            .send({ title: 'new Name' })
+            .send({ title: 'new Name for this one' })
 
         const foundResource = await practiceResource.findOne({ email: preResource.email })
-        assert(foundResource.title === 'new Name')
+        assert(foundResource.title === 'new Name for this one')
+    })
+
+    // UPDATE 
+    it('edits a practiceresource from /api/practiceresource/:id but fails because title is too short', async () => {
+        const newResource = new practiceResource({ ...preResource, user: userId })
+        await newResource.save()
+
+        const response = await request(app).put(`/api/practiceresource/${newResource._id}`)
+            .set('Authorization', `Bearer ${token}`)
+            .send({ title: 'too short' })
+
+        const foundResource = await practiceResource.findOne({ email: preResource.email })
+        assert(foundResource.title !== 'too short')
+        assert(response.statusCode === 400)
+    })
+
+    // UPDATE 
+    it('edits a practiceresource from /api/practiceresource/:id but fails because content is too short', async () => {
+        const newResource = new practiceResource({ ...preResource, user: userId })
+        await newResource.save()
+
+        const response = await request(app).put(`/api/practiceresource/${newResource._id}`)
+            .set('Authorization', `Bearer ${token}`)
+            .send({ content: 'too short' })
+
+        const foundResource = await practiceResource.findOne({ email: preResource.email })
+        assert(foundResource.content !== 'too short')
+        assert(response.statusCode === 400)
+    })
+
+    // UPDATE 
+    it('edits a practiceresource from /api/practiceresource/:id but fails because tried to pass null value', async () => {
+        const newResource = new practiceResource({ ...preResource, user: userId })
+        await newResource.save()
+
+        const response = await request(app).put(`/api/practiceresource/${newResource._id}`)
+            .set('Authorization', `Bearer ${token}`)
+            .send({ content: null })
+
+        const foundResource = await practiceResource.findOne({ email: preResource.email })
+        assert(foundResource.content !== null)
+        assert(response.statusCode === 400)
     })
 
     // DELETE
@@ -88,5 +160,18 @@ describe('practiceresource controller', () => {
 
         const foundResource = await practiceResource.findOne({ email: preResource.email })
         assert(foundResource === null)
+    })
+
+    // DELETE
+    it('removes a practiceresource from /api/practiceresource/:id but fails because wrong user tries to delete', async () => {
+        const newResource = new practiceResource({ ...preResource, user: userId })
+        await newResource.save()
+
+        const response = await request(app).delete(`/api/practiceresource/${newResource._id}`)
+            .set('Authorization', `Bearer ${token}FRAUD`)
+
+        const foundResource = await practiceResource.findOne({ email: preResource.email })
+        assert(foundResource !== null)
+        assert(response.statusCode === 401)
     })
 })

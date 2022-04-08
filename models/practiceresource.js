@@ -62,6 +62,10 @@ function validateReadingTime(val) {
     return val >= 1
 }
 
+PracticeResourceSchema.pre('findOneAndUpdate', function (next) {
+    this.options.runValidators = true
+    next()
+})
 
 const practiceResource = mongoose.model('practiceresource', PracticeResourceSchema)
 module.exports = practiceResource
