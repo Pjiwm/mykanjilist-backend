@@ -156,7 +156,7 @@ ALlows reference to kanji list via id
 `DELETE`
 `/api/practiceresource/user/:id`
 Deletes the practice resource with the corresponding ID
-
+On a scale from 1 to 5
 ## Common queries
 |               | POST          | GET  | PUT | DELETE |
 | ------------- |:-------------:| :-----:|:-----:|-----:|
