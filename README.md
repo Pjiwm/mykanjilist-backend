@@ -47,10 +47,6 @@ Receives all kanji lists on the DB
 `/api/kanjilist/:id`
 Receives a single kanji list based on the ID 
 
-`GET`
-`/api/kanjilist/user/:id`
-Receives all the kanji lists from a user based on the users ID
-
 `PUT`
 `/api/kanjilist/:id`
 Updates the kanji list with the corresponding ID
@@ -90,12 +86,8 @@ Receives all guides on the DB
 `/api/guide/:id`
 Receives a single guide based on the ID 
 
-`GET`
-`/api/guide/user/:id`
-Receives all the guides from a user based on the users ID
-
 `PUT`
-`/api/guide/user/:id`
+`/api/guide/:id`
 Updates the guide with the corresponding ID
 ```JSON
 {
@@ -140,7 +132,7 @@ Receives a single practice resource based on the ID
 Receives all the practice resources from a user based on the users ID
 
 `PUT`
-`/api/practiceresource/user/:id`
+`/api/practiceresource/:id`
 Updates the practice resource with the corresponding ID
 ```JSON
 {
@@ -154,7 +146,8 @@ Updates the practice resource with the corresponding ID
 ALlows reference to kanji list via id
 
 `DELETE`
-`/api/practiceresource/user/:id`
+`/api/practiceresource/:id`
+
 Deletes the practice resource with the corresponding ID
 On a scale from 1 to 5
 ## Common queries
